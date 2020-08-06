@@ -1,5 +1,9 @@
 # Locust script for testing oTree apps
 
+## Note:
+This fork updates the original version to work with locus >=1.1.1
+
+
 ## Attention:
 This code will work with the most recent version of oTree. For older ones, a slightly different approach is needed. DM me.
 
@@ -16,7 +20,8 @@ This code will work with the most recent version of oTree. For older ones, a sli
 
 [front]: https://raw.githubusercontent.com/chapkovski/locust-otree/master/img/locust_first_page.png "Front"
 
-5. Open your oTree app and create a session with *browser bots activated*:
+5. Open your oTree app and create a session with *browser bots activated*
+(add `use_browser_bots=True` to the session config for stress testing):
 ![alt text][session10]
 
 [session10]: https://raw.githubusercontent.com/chapkovski/locust-otree/master/img/session_10.gif "Session 10"
@@ -31,6 +36,3 @@ __hatching__ (how quckly they join the game.)
 
 
 7. Observe how they start playing and the response times, and if there are any failures there.
-
-
- 

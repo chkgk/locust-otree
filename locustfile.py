@@ -1,7 +1,5 @@
-from locust import HttpLocust, TaskSet, task, between
-from gevent import GreenletExit
-from locust.exception import StopLocust
-from otree import __version__
+from locust import HttpUser, TaskSet, task, between
+from locust.exception import StopUser
 # this is not the best - in case oTree decides to change the bot complete message later.
 
 ########### BLOCK: FOR OLD (<2.6)  otree version ##############################################################
@@ -15,7 +13,6 @@ BOT_COMPLETE_HTML_MESSAGE = b'''
 </html>
 '''
 ############ END OF: FOR OLD (<2.6)  otree version #############################################################
-
 
 
 class OtreeApplication:
@@ -46,7 +43,7 @@ class OtreeApplication:
                             final_response.success()
                             status = False
 
-                elif  response.ok:
+                elif response.ok:
                     status = response.ok
                     response.success()
                 else:
@@ -54,17 +51,14 @@ class OtreeApplication:
                     status = False
 
 
-class OtreeTaskSet(TaskSet):
-    def on_start(self):
-        self.otree_client = OtreeApplication(self.client, host=self.parent.host)
+class WebsiteUser(HttpUser):
+    wait_time = between(5, 9)
+    host = 'http://localhost:8000'
 
     @task(1)
     def start_bot(self):
         self.otree_client.first_page()
-        raise StopLocust()
+        raise StopUser()
 
-
-class WebsiteUser(HttpLocust):
-    wait_time = between(5, 9)
-    host = 'http://localhost:8000'
-    task_set = OtreeTaskSet
+    def on_start(self):
+        self.otree_client = OtreeApplication(self.client, host=self.host)
